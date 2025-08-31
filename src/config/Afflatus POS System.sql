@@ -72,6 +72,7 @@ CREATE TABLE transactions (
     promotion_id INT NULL, -- optional link if a promotion was applied
     FOREIGN KEY (promotion_id) REFERENCES promotions(id) ON DELETE SET NULL,
     payment_method ENUM('Cash', 'E-Wallet') NOT NULL,
+    ref_number VARCHAR(50) NULL,
     total_amount DOUBLE NOT NULL DEFAULT 0,
     discount_amount DOUBLE NOT NULL DEFAULT 0,
     net_amount DOUBLE NOT NULL DEFAULT 0,
@@ -79,6 +80,8 @@ CREATE TABLE transactions (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     modified_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
+DESCRIBE transactions;
 
 CREATE TABLE transaction_products (
     transaction_id INT NOT NULL,
@@ -102,8 +105,6 @@ CREATE TABLE employees(
     added_at DATETIME default CURRENT_TIMESTAMP NOT NULL,
     modified_at DATETIME default CURRENT_TIMESTAMP NOT NULL
 );
-
-select * from employees;
 
 # -------------------------------------------
 

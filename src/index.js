@@ -15,7 +15,7 @@ app.use("/product_image", express.static(path.join(__dirname, "../src/product_im
 
 // CORS configuration
 app.use(cors({
-  origin: process.env.FRONTEND_URL,
+  origin: [process.env.FRONTEND_URL, process.env.Staff_FRONTEND_URL],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 }));
 
@@ -26,7 +26,7 @@ async function initDB() {
   db = await mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
-    password: process.env.DB_PASS,
+    password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
   });
   console.log("✅ MySQL connection pool created");

@@ -151,10 +151,20 @@ const login = async (req, res) => {
   }
 }
 
+const getStaffs = async (req, res) => {
+  try {
+    const [rows] = await db.query("SELECT * FROM employees WHERE role = 'Staff'");
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch staff employees' });
+  }
+}
+
 module.exports = {
     getAllEmployees,
     createEmployee,
     updateEmployee,
     deleteEmployee,
     login,
+    getStaffs
 };

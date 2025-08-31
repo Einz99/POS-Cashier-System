@@ -8,6 +8,8 @@ router.post('/', employeeController.createEmployee);
 router.put('/:id', employeeController.updateEmployee);
 router.delete('/:id', employeeController.deleteEmployee);
 
+router.get('/staffs', employeeController.getStaffs);
+
 // Auth Login
 router.post('/login', employeeController.login);
 
