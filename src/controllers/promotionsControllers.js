@@ -16,6 +16,7 @@ const getAllPromotions = async (req, res) => {
         p.end_time_frame,
         p.minimum_spend,
         p.minimum_item,
+        p.branch_brand,
         GROUP_CONCAT(pp.product_id) AS products
       FROM promotions p
       LEFT JOIN promotion_products pp ON p.id = pp.promotion_id
@@ -52,7 +53,8 @@ const createPromotion = async (req, res) => {
       end_time_frame,
       minimum_spend,
       minimum_item,
-      products = []
+      products = [],
+      branch_brand // New branch_brand field from request
     } = req.body;
 
     await conn.beginTransaction();
@@ -60,9 +62,9 @@ const createPromotion = async (req, res) => {
     // insert into promotions
     const [result] = await conn.query(
       `INSERT INTO promotions 
-        (promotion_name, description, type, value, start_date, end_date, start_time_frame, end_time_frame, minimum_spend, minimum_item) 
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [name, description, type, value, start_date, end_date, start_time_frame, end_time_frame, minimum_spend, minimum_item]
+        (promotion_name, description, type, value, start_date, end_date, start_time_frame, end_time_frame, minimum_spend, minimum_item, branch_brand) 
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [name, description, type, value, start_date, end_date, start_time_frame, end_time_frame, minimum_spend, minimum_item, branch_brand]
     );
 
     const promotionId = result.insertId;
@@ -103,7 +105,8 @@ const updatePromotion = async (req, res) => {
       end_time_frame,
       minimum_spend,
       minimum_item,
-      products = []
+      products = [],
+      branch_brand // New branch_brand field from request
     } = req.body;
 
     await conn.beginTransaction();
@@ -112,9 +115,9 @@ const updatePromotion = async (req, res) => {
     await conn.query(
       `UPDATE promotions 
        SET promotion_name = ?, description = ?, type = ?, value = ?, start_date = ?, end_date = ?, 
-           start_time_frame = ?, end_time_frame = ?, minimum_spend = ?, minimum_item = ?
+           start_time_frame = ?, end_time_frame = ?, minimum_spend = ?, minimum_item = ?, branch_brand = ? 
        WHERE id = ?`,
-      [name, description, type, value, start_date, end_date, start_time_frame, end_time_frame, minimum_spend, minimum_item, id]
+      [name, description, type, value, start_date, end_date, start_time_frame, end_time_frame, minimum_spend, minimum_item, branch_brand, id]
     );
 
     // clear existing product links

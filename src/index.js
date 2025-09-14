@@ -58,6 +58,35 @@ app.use("/transaction-products", transactionProductsRouter);
 const employeesRouter = require("./routes/employees");
 app.use("/employees", employeesRouter);
 
+let temporaryStorage = {};
+
+app.post('/storeData', (req, res) => {
+  const { key, data } = req.body;
+  if (!key || !data) {
+    return res.status(400).send('Key and data are required');
+  }
+
+  temporaryStorage[key] = data;
+  console.log('Data stored in temporaryStorage:', temporaryStorage);  // Debugging log
+  res.status(200).send({ message: 'Data stored successfully' });
+});
+
+// Endpoint to retrieve and delete data
+app.get('/getData/:key', (req, res) => {
+  const { key } = req.params;
+  console.log(`Fetching data for key: ${key}`);  // Log the key being fetched
+
+  const data = temporaryStorage[key];
+  if (!data) {
+    console.log(`No data found for key: ${key}`);  // Log if no data is found
+    return res.status(404).send('Data not found');
+  }
+
+  res.status(200).send({ data });
+  delete temporaryStorage[key]; // Delete data after retrieval
+});
+
+
 const getLocalIP = () => {
   const interfaces = os.networkInterfaces();
   for (const name in interfaces) {

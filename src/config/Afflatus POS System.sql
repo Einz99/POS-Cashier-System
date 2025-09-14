@@ -55,9 +55,15 @@ CREATE TABLE promotions(
     end_time_frame TIME,
     minimum_spend INT,
     minimum_item INT,
+    branch_brand INT,
+    FOREIGN KEY (branch_brand) REFERENCES branch_brand(id),
     created_at DATETIME default CURRENT_TIMESTAMP NOT NULL,
     modified_at DATETIME default CURRENT_TIMESTAMP NOT NULL
 );
+
+SELECT * FROM promotions;
+
+SELECT * FROM branch_brand;
 
 CREATE TABLE promotion_products (
     promotion_id INT NOT NULL,
@@ -105,6 +111,8 @@ CREATE TABLE employees(
     added_at DATETIME default CURRENT_TIMESTAMP NOT NULL,
     modified_at DATETIME default CURRENT_TIMESTAMP NOT NULL
 );
+
+SELECT * FROM employees;
 
 # -------------------------------------------
 
