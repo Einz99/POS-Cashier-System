@@ -4,6 +4,7 @@ const cors = require("cors");
 const mysql = require("mysql2/promise");
 const os = require("os");
 const path = require("path");
+require('./transactionJob');
 
 dotenv.config();
 
